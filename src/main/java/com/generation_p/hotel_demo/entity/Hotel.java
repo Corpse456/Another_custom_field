@@ -6,13 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "HOTEL")
@@ -35,6 +31,8 @@ public class Hotel extends AbstractEntity implements Serializable, Cloneable {
 	@Embedded
 	private FreeServices freeServices;
 
+	private String rooms;
+	
 	private String url;
 
 	private String description = "";
@@ -115,4 +113,11 @@ public class Hotel extends AbstractEntity implements Serializable, Cloneable {
 		this.freeServices = freeServices;
 	}
 
+    public String getRooms () {
+        return rooms;
+    }
+
+    public void setRooms (String rooms) {
+        this.rooms = rooms;
+    }
 }

@@ -92,5 +92,13 @@
 			<column name="COLD_SPIRITS" type="BIT(1)  NOT NULL DEFAULT 0"/>
 		</addColumn>
 	</changeSet>
+	<changeSet id="FACILITIES" author="Corpse">
+		<addColumn tableName="HOTEL">
+			<column name="ROOMS" type="VARCHAR(1000)"/>
+		</addColumn>
+		<rollback>
+			<dropColumn tableName="HOTEL" columnName="ROOMS" />
+		</rollback>
+	</changeSet>
 
 </databaseChangeLog>

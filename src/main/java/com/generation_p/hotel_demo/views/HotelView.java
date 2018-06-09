@@ -6,6 +6,7 @@ import org.vaadin.viritin.util.HtmlElementPropertySetter;
 
 import com.generation_p.hotel_demo.entity.Hotel;
 import com.generation_p.hotel_demo.services.HotelDataProvider;
+import com.generation_p.hotel_demo.services.RoomService;
 import com.generation_p.hotel_demo.services.ServiceProvider;
 import com.generation_p.hotel_demo.views.form.HotelForm;
 import com.vaadin.data.provider.ConfigurableFilterDataProvider;
@@ -29,6 +30,7 @@ public class HotelView extends AbstractEntityView {
 	private Grid<Hotel> grid = new Grid<>(Hotel.class);
 	private TextField filterText = new TextField();
 	private ConfigurableFilterDataProvider<Hotel, Void, String> dataProvider;
+	private RoomService room = new RoomService();
 
 	/**
 	 * Method that is called each time on view enter
@@ -60,6 +62,13 @@ public class HotelView extends AbstractEntityView {
 		s1.setProperty("type", "search");
 
 		HorizontalLayout buttons = getButtons();
+		fillRooms.addClickListener(l -> {
+            try {
+                room.click();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        });
 		buttons.removeComponent(editButton);
 		controlPannel.addComponents(filterText, buttons);
 	}
@@ -87,6 +96,7 @@ public class HotelView extends AbstractEntityView {
 		
 		dataProvider = new HotelDataProvider().withConfigurableFilter();
 		grid.setDataProvider(dataProvider);
+		grid.setId("HotelGrid");
 
 		updateList();
 	}

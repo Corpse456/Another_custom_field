@@ -1,7 +1,5 @@
 package com.generation_p.hotel_demo.views.form;
 
-import java.security.acl.Owner;
-
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Button;

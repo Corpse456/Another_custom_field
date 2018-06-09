@@ -24,7 +24,8 @@ public class HotelService {
 	@PersistenceContext(unitName = "hotel_demo", type = PersistenceContextType.TRANSACTION)
 	private EntityManager entityManager;
 
-	private static final Logger LOGGER = Logger.getLogger(HotelService.class.getName());
+	@SuppressWarnings ("unused")
+    private static final Logger LOGGER = Logger.getLogger(HotelService.class.getName());
 
 	public HotelService() {}
 

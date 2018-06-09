@@ -13,11 +13,13 @@ public abstract class AbstractEntityView extends VerticalLayout implements View 
 	private static String NEW_BUTTON = "New";
 	private static String EDIT_BUTTON = "Edit";
 	private static String DELETE_BUTTON = "Delete";
+	private static String FILL_BUTTON = "Fill rooms";
 
 	// buttons
 	protected Button newButton = new Button(NEW_BUTTON, VaadinIcons.PLUS);
 	protected Button editButton = new Button(EDIT_BUTTON, VaadinIcons.EDIT);
 	protected Button deleteButton = new Button(DELETE_BUTTON, VaadinIcons.CLOSE);
+	protected Button fillRooms = new Button(FILL_BUTTON, VaadinIcons.AIRPLANE);
 
 	/**
 	 * All general controls will be initialized here
@@ -36,9 +38,10 @@ public abstract class AbstractEntityView extends VerticalLayout implements View 
 		newButton.setStyleName(ValoTheme.BUTTON_TINY);
 		editButton.setStyleName(ValoTheme.BUTTON_TINY);
 		deleteButton.setStyleName(ValoTheme.BUTTON_TINY);
+		fillRooms.setStyleName(ValoTheme.BUTTON_TINY);
 
 		// add buttons to layout
-		HorizontalLayout layout = new HorizontalLayout(newButton, editButton, deleteButton);
+		HorizontalLayout layout = new HorizontalLayout(newButton, editButton, deleteButton, fillRooms);
 		layout.setSpacing(true);
 
 		return layout;

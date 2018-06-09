@@ -1,9 +1,6 @@
 package com.generation_p.hotel_demo.views;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.generation_p.hotel_demo.entity.HotelCategory;
-import com.generation_p.hotel_demo.services.CategoryService;
 import com.generation_p.hotel_demo.services.ServiceProvider;
 import com.generation_p.hotel_demo.views.form.CategoryForm;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -29,7 +26,9 @@ public class CategoryView extends AbstractEntityView {
 		form = new CategoryForm(this);
 		// add buttons
 		HorizontalLayout main = new HorizontalLayout(list, form);
-		addComponents(getButtons(), main);
+		HorizontalLayout buttons = getButtons();
+		buttons.removeComponent(fillRooms);
+		addComponents(buttons, main);
 		updateList();
 
 		list.setItemCaptionGenerator(HotelCategory::getCategoryName);
