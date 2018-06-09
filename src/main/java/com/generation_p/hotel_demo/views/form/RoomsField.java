@@ -7,10 +7,10 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings ("serial")
@@ -19,10 +19,11 @@ public class RoomsField extends CustomField<String> {
     private Map<String, String> rooms = new TreeMap<String, String>();
     private String caption = "Rooms";
     private VerticalLayout layout = new VerticalLayout();
-    private NativeSelect<String> roomsSelect = new NativeSelect<>();
+    private ComboBox<String> roomsSelect = new ComboBox<>();
     private Image roomsPhoto = new Image();
     
     private static final String SELECTION_PLACEHOLDER = "Please select a room";
+    private String currentKey;
     
     @Override
     public String getValue () {
@@ -56,14 +57,22 @@ public class RoomsField extends CustomField<String> {
         roomsSelect.setWidth("100%");
         roomsSelect.setEmptySelectionCaption(SELECTION_PLACEHOLDER);
         roomsSelect.addSelectionListener(event -> {
-            String key = event.getValue();
-            if (key == null || SELECTION_PLACEHOLDER.equals(key)) {
+            currentKey = event.getValue();
+            if (currentKey == null || SELECTION_PLACEHOLDER.equals(currentKey)) {
                 roomsPhoto.setVisible(false);
                 return;
             }
             
             roomsPhoto.setVisible(true);
-            roomsPhoto.setSource(new ExternalResource(rooms.get(key)));
+            roomsPhoto.setSource(new ExternalResource(rooms.get(currentKey)));
+        });
+
+        roomsSelect.setNewItemHandler(s -> {
+            if (s == null || SELECTION_PLACEHOLDER.equals(s) || s.equals(currentKey)) return;
+
+            String link = rooms.get(currentKey);
+            rooms.remove(currentKey);
+            rooms.put(s, link);
         });
     }
 
