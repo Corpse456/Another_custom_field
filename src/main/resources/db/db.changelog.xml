@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet author="melamory" id="init">
+		<!-- ================================= Hotels ================================= -->
+		<createTable tableName="HOTEL">
+			<column autoIncrement="true" name="ID" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="OPTLOCK" type="BIGINT" />
+			<column name="NAME" type="VARCHAR(255)" />
+			<column name="ADDRESS" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="RATING" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="OPERATES_FROM" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="CATEGORY" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="URL" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="HOTEL" />
+		</rollback>
+	</changeSet>
+	<changeSet id="CATEGORY_TO_CATEGORY_ID_UPDATE" author="demianbel">
+		<modifyDataType tableName="HOTEL" columnName="CATEGORY"
+			newDataType="BIGINT" />
+		<renameColumn tableName="HOTEL" oldColumnName="CATEGORY"
+			newColumnName="CATEGORY_ID" columnDataType="BIGINT" />
+		<dropNotNullConstraint tableName="HOTEL"
+			columnName="CATEGORY_ID" columnDataType="BIGINT" />
+		<addColumn tableName="HOTEL">
+			<column name="DESCRIPTION" type="TEXT">
+			</column>
+		</addColumn>
+		<rollback>
+			<addNotNullConstraint tableName="HOTEL"
+				columnName="CATEGORY_ID" columnDataType="BIGINT" />
+			<renameColumn tableName="Hotel" oldColumnName="CATEGORY_ID"
+				newColumnName="CATEGORY" />
+			<modifyDataType tableName="HOTEL" columnName="CATEGORY"
+				newDataType="VARCHAR(255)" />
+			<dropColumn tableName="HOTEL" columnName="DESCRIPTION" />
+		</rollback>
+	</changeSet>
+	<changeSet id="add_NAME_NOT_NULL_CONSTRAINT" author="demianbel">
+		<addNotNullConstraint tableName="HOTEL"
+			columnName="NAME" columnDataType="VARCHAR(255)" />
+		<rollback>
+			<dropNotNullConstraint tableName="HOTEL"
+				columnName="NAME" columnDataType="VARCHAR(255)" />
+		</rollback>
+	</changeSet>
+	<changeSet id="CREATE_CATEGORY_TABLE" author="demianbel">
+		<!-- ============================== Categories ======================================== -->
+		<createTable tableName="CATEGORY">
+			<column autoIncrement="true" name="ID" type="BIGINT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="OPTLOCK" type="BIGINT" />
+			<column name="NAME" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<rollback>
+			<dropTable tableName="CATEGORY" />
+		</rollback>
+	</changeSet>
+	<changeSet id="CREATE_FK" author="demianbel">
+		<addForeignKeyConstraint constraintName="fk_hotel_category"
+			baseColumnNames="CATEGORY_ID" baseTableName="HOTEL"
+			referencedTableName="CATEGORY" referencedColumnNames="ID" onDelete="SET NULL" />
+		<rollback>
+			<dropForeignKeyConstraint baseTableName="HOTEL" />
+		</rollback>
+	</changeSet>
+	<changeSet id="SERVICES" author="melamory">
+		<addColumn tableName="HOTEL">
+			<column name="BREAKFAST" type="BIT(1) NOT NULL DEFAULT 0"/>
+			<column name="TOWELS" type="BIT(1) NOT NULL DEFAULT 0"/>
+			<column name="COLD_SPIRITS" type="BIT(1)  NOT NULL DEFAULT 0"/>
+		</addColumn>
+	</changeSet>
+
+</databaseChangeLog>
